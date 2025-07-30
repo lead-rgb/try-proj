@@ -13,6 +13,7 @@ zoom_map = {
 BACKGROUND_IMAGE = "kk.jpg"
 USER_DB_FILE = "users.json"
 
+# 🎨 Apply Background & Theme Styles
 def set_background(image_file, theme):
     image_path = Path(image_file).resolve()
     if theme == "🌞 Light":
@@ -26,8 +27,7 @@ def set_background(image_file, theme):
         button_bg = "#333333"
         button_text = "#ffffff"
 
-    st.markdown(
-        f"""
+    st.markdown(f"""
         <style>
         .stApp {{
             background-color: {bg_color};
@@ -37,21 +37,14 @@ def set_background(image_file, theme):
             background-position: center;
             background-repeat: no-repeat;
         }}
-        html, body, [class*="css"] {{
-            zoom: {zoom_map[st.session_state.zoom]};
-        }}
-        [data-testid="stSidebar"] {{
+        html, body, [class*="css"] {{ zoom: {zoom_map[st.session_state.zoom]}; }}
+        [data-testid="stSidebar"], [data-testid="stSidebar"] .block-container {{
             background-color: {bg_color};
             color: {text_color};
         }}
-        [data-testid="stSidebar"] .block-container {{
-            background-color: {bg_color};
-            color: {text_color};
-        }}
+        h1, h2, h3, h4, h5, h6, p, label,
+        .stTextInput, .stSelectbox, .stNumberInput,
         [data-testid="stSidebar"] .stRadio > div > label {{
-            color: {text_color};
-        }}
-        h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stSelectbox, .stNumberInput {{
             color: {text_color};
         }}
         .stButton > button {{
@@ -63,11 +56,9 @@ def set_background(image_file, theme):
             font-weight: bold;
         }}
         </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """, unsafe_allow_html=True)
 
-# 🔐 User Data Handling
+# 🔐 User Data Management
 def load_users():
     try:
         with open(USER_DB_FILE, "r") as f:
@@ -79,20 +70,18 @@ def save_users(users):
     with open(USER_DB_FILE, "w") as f:
         json.dump(users, f)
 
-# 🧾 Session Initialization
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-    st.session_state.username = ""
-    st.session_state.name = ""
-
-if "page" not in st.session_state:
-    st.session_state.page = "Login"
-
-if "theme" not in st.session_state:
-    st.session_state.theme = "🌞 Light"
-
-if "zoom" not in st.session_state:
-    st.session_state.zoom = "🔍 Medium"
+# 🧾 Initialize Session State Defaults
+for key, value in {
+    "logged_in": False,
+    "username": "",
+    "name": "",
+    "page": "Login",
+    "theme": "🌞 Light",
+    "zoom": "🔍 Medium",
+    "signup_success": False
+}.items():
+    if key not in st.session_state:
+        st.session_state[key] = value
 
 user_db = load_users()
 
@@ -111,22 +100,27 @@ else:
 
 page = st.sidebar.selectbox("Navigate", options, index=options.index(st.session_state.page))
 
-# 🎛️ Theme and Zoom Controls
+# 🎛️ Theme & Zoom Settings
 if st.session_state.logged_in:
     st.sidebar.markdown("---")
     st.sidebar.subheader("🎨 Display Settings")
     st.session_state.theme = st.sidebar.radio("Mode", ["🌞 Light", "🌙 Dark"])
     st.session_state.zoom = st.sidebar.radio("Zoom", list(zoom_map.keys()))
 
-# 🖼 Apply Custom Background & Styles
+# 🎨 Apply Styling
 set_background(BACKGROUND_IMAGE, st.session_state.theme)
 
-# 🔐 Sign Up
+# 🔐 Sign Up Page
 if page == "Sign Up":
     st.title("🔐 Sign Up")
+
+    if st.session_state.signup_success:
+        st.success("✅ Successfully signed in, you can login to the page.")
+
     real_name = st.text_input("Full name")
     new_username = st.text_input("Choose a username")
     new_password = st.text_input("Choose a password", type="password")
+
     if st.button("Register"):
         if new_username in user_db:
             st.error("Username already exists.")
@@ -135,12 +129,11 @@ if page == "Sign Up":
         else:
             user_db[new_username] = {"name": real_name, "password": new_password}
             save_users(user_db)
-            st.success("✅ Registration successful! You can now log in.")
-            st.session_state.page = "Login"
-            st.rerun()
+            st.session_state.signup_success = True
 
-# 🔓 Login
+# 🔓 Login Page
 elif page == "Login":
+    st.session_state.signup_success = False  # clear success message on login
     st.title("🔓 Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
@@ -173,12 +166,12 @@ elif page == "Quadratic Solver":
     b = st.number_input("Enter b", value=0.0)
     c = st.number_input("Enter c", value=0.0)
     if st.button("Solve Quadratic"):
-        discriminant = b**2 - 4*a*c
-        if discriminant > 0:
-            x1 = (-b + discriminant**0.5) / (2*a)
-            x2 = (-b - discriminant**0.5) / (2*a)
+        d = b**2 - 4*a*c
+        if d > 0:
+            x1 = (-b + d**0.5) / (2*a)
+            x2 = (-b - d**0.5) / (2*a)
             st.success(f"✅ Two solutions: x = {x1:.2f}, x = {x2:.2f}")
-        elif discriminant == 0:
+        elif d == 0:
             x = -b / (2*a)
             st.success(f"✅ One solution: x = {x:.2f}")
         else:
