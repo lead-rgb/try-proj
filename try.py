@@ -72,21 +72,41 @@ def set_background(image_file, theme):
             color: {text_color} !important;
         }}
         
-        /* Typography */
+        /* Typography with Maximum Visibility */
         h1, h2, h3, h4, h5, h6 {{
             color: {text_color} !important;
-            font-size: {font_size} !important;
-            font-weight: 600 !important;
-            margin-bottom: 1rem !important;
+            font-size: calc({font_size} + 4px) !important;
+            font-weight: 700 !important;
+            margin-bottom: 1.2rem !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            line-height: 1.3 !important;
+        }}
+        
+        h1 {{
+            font-size: calc({font_size} + 12px) !important;
+            text-align: center !important;
+            background: linear-gradient(135deg, {text_color}, {button_bg}) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
         }}
         
         p, label, .markdown-text-container, .stMarkdown {{
             color: {text_color} !important;
             font-size: {font_size} !important;
-            line-height: 1.6 !important;
+            line-height: 1.7 !important;
+            font-weight: 500 !important;
         }}
         
-        /* Input Fields */
+        /* Enhanced divider visibility */
+        hr {{
+            border: none !important;
+            height: 2px !important;
+            background: linear-gradient(90deg, transparent, {text_color}40, transparent) !important;
+            margin: 2rem 0 !important;
+        }}
+        
+        /* Input Fields with Enhanced Visibility */
         .stTextInput input, .stNumberInput input, .stTextArea textarea {{
             background-color: {input_bg} !important;
             color: {text_color} !important;
@@ -95,19 +115,49 @@ def set_background(image_file, theme):
             font-size: {font_size} !important;
             padding: 12px !important;
             box-shadow: {shadow} !important;
+            caret-color: {text_color} !important;
+            -webkit-text-fill-color: {text_color} !important;
+            -webkit-box-shadow: 0 0 0px 1000px {input_bg} inset !important;
         }}
         
         .stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus {{
             border-color: {button_bg} !important;
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1) !important;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2) !important;
+            outline: none !important;
+            caret-color: {button_bg} !important;
         }}
         
-        /* Select Boxes and Radio Buttons */
+        .stTextInput input::placeholder, .stNumberInput input::placeholder, .stTextArea textarea::placeholder {{
+            color: {text_color}80 !important;
+            opacity: 0.7 !important;
+        }}
+        
+        /* Autofill Override for Better Visibility */
+        .stTextInput input:-webkit-autofill,
+        .stTextInput input:-webkit-autofill:hover,
+        .stTextInput input:-webkit-autofill:focus,
+        .stTextInput input:-webkit-autofill:active {{
+            -webkit-box-shadow: 0 0 0px 1000px {input_bg} inset !important;
+            -webkit-text-fill-color: {text_color} !important;
+            caret-color: {text_color} !important;
+        }}
+        
+        /* Select Boxes and Radio Buttons with Enhanced Visibility */
         .stSelectbox > div, .stRadio div {{
             background-color: {input_bg} !important;
             color: {text_color} !important;
             border-radius: 8px !important;
             border: 2px solid {border_color} !important;
+        }}
+        
+        .stSelectbox > div > div {{
+            color: {text_color} !important;
+            background-color: {input_bg} !important;
+        }}
+        
+        .stSelectbox option {{
+            background-color: {input_bg} !important;
+            color: {text_color} !important;
         }}
         
         .stRadio div label {{
@@ -117,28 +167,69 @@ def set_background(image_file, theme):
             border-radius: 6px !important;
             background-color: {secondary_bg} !important;
             margin: 4px !important;
+            cursor: pointer !important;
         }}
         
-        /* Buttons */
+        .stRadio div label:hover {{
+            background-color: {button_bg}20 !important;
+            transform: translateY(-1px) !important;
+        }}
+        
+        /* Enhanced Form Labels */
+        .stTextInput label, .stNumberInput label, .stSelectbox label {{
+            color: {text_color} !important;
+            font-weight: 600 !important;
+            font-size: {font_size} !important;
+            margin-bottom: 8px !important;
+        }}
+        
+        /* Enhanced Buttons with High Visibility */
         .stButton > button {{
             background: linear-gradient(135deg, {button_bg}, #5dade2) !important;
             color: {button_text} !important;
             font-size: {font_size} !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
             border-radius: 8px !important;
-            padding: 12px 24px !important;
-            border: none !important;
-            box-shadow: {shadow} !important;
+            padding: 14px 28px !important;
+            border: 2px solid {button_bg} !important;
+            box-shadow: {shadow}, 0 0 20px rgba(74, 144, 226, 0.2) !important;
             transform: translateY(0px) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }}
         
         .stButton > button:hover {{
-            transform: translateY(-2px) !important;
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3) !important;
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4), 0 0 30px rgba(74, 144, 226, 0.3) !important;
+            background: linear-gradient(135deg, #5dade2, {button_bg}) !important;
         }}
         
         .stButton > button:active {{
-            transform: translateY(0px) !important;
+            transform: translateY(-1px) scale(0.98) !important;
+            box-shadow: 0 2px 10px rgba(74, 144, 226, 0.3) !important;
+        }}
+        
+        /* Special styling for theme toggle buttons */
+        button[key*="light"], button[key*="dark"] {{
+            min-width: 120px !important;
+            font-size: 16px !important;
+            background: linear-gradient(135deg, {button_bg}, #74b9ff) !important;
+            border: 2px solid {text_color}40 !important;
+            box-shadow: 0 4px 15px rgba(116, 185, 255, 0.3) !important;
+        }}
+        
+        /* Form submit buttons enhancement */
+        button[kind="formSubmit"] {{
+            background: linear-gradient(135deg, #00b894, #00cec9) !important;
+            border: 2px solid #00b894 !important;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3) !important;
+        }}
+        
+        button[kind="formSubmit"]:hover {{
+            background: linear-gradient(135deg, #00cec9, #00b894) !important;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4) !important;
         }}
         
         /* Sidebar */
@@ -285,40 +376,61 @@ set_background(BACKGROUND_IMAGE, st.session_state.theme)
 
 # 🔐 Enhanced Sign Up Page
 if page == "Sign Up":
-    st.title("🔐 Create Account")
-    st.markdown("*Join our math community today!*")
+    # Page-specific theme toggle for Sign Up
+    st.markdown("### 🎨 **Theme Control Panel**")
+    st.markdown("*Choose your preferred visual mode*")
+    
+    theme_container = st.container()
+    with theme_container:
+        theme_col1, theme_col2, theme_col3 = st.columns([1, 1, 1])
+        with theme_col1:
+            if st.button("☀️ **LIGHT MODE**", key="signup_light", help="Switch to bright light theme", use_container_width=True):
+                st.session_state.theme = "🌞 Light"
+                st.rerun()
+        with theme_col2:
+            if st.button("🌙 **DARK MODE**", key="signup_dark", help="Switch to elegant dark theme", use_container_width=True):
+                st.session_state.theme = "🌙 Dark"
+                st.rerun()
+        with theme_col3:
+            st.markdown(f"**Current:** {st.session_state.theme}")
+    
+    st.divider()
+    st.title("🔐 **CREATE ACCOUNT**")
+    st.markdown("### *Join our exclusive math community today!*")
 
     # Show success message if signup just happened
     if st.session_state.signup_success:
-        st.success("✅ Account created successfully! Please login below.")
-        if st.button("Go to Login"):
+        st.success("✅ **ACCOUNT CREATED SUCCESSFULLY!** Please login below.")
+        if st.button("**GO TO LOGIN →**", use_container_width=True):
             st.session_state.page = "Login"
             st.session_state.signup_success = False
             st.rerun()
 
     if not st.session_state.signup_success:
+        st.markdown("#### **Registration Form**")
         with st.form("signup_form"):
-            real_name = st.text_input("📝 Full Name", placeholder="Enter your full name")
-            new_username = st.text_input("👤 Username", placeholder="Choose a unique username")
-            new_password = st.text_input("🔒 Password", type="password", placeholder="Create a secure password")
+            real_name = st.text_input("📝 **FULL NAME**", placeholder="Enter your complete name here")
+            new_username = st.text_input("👤 **USERNAME**", placeholder="Create your unique username")
+            new_password = st.text_input("🔒 **PASSWORD**", type="password", placeholder="Create a strong password (min 6 chars)")
             
+            st.markdown("---")
             col1, col2 = st.columns(2)
             with col1:
-                submit_button = st.form_submit_button("🚀 Create Account", use_container_width=True)
+                submit_button = st.form_submit_button("🚀 **CREATE ACCOUNT**", use_container_width=True)
             with col2:
-                if st.form_submit_button("← Back to Login", use_container_width=True):
+                if st.form_submit_button("← **BACK TO LOGIN**", use_container_width=True):
                     st.session_state.page = "Login"
                     st.rerun()
             
             if submit_button:
                 if new_username in user_db:
-                    st.error("❌ Username already exists. Please choose another.")
+                    st.error("❌ **USERNAME ALREADY EXISTS!** Please choose another.")
                 elif len(new_username) < 3:
-                    st.error("❌ Username must be at least 3 characters long.")
+                    st.error("❌ **USERNAME TOO SHORT!** Must be at least 3 characters.")
                 elif len(new_password) < 6:
-                    st.error("❌ Password must be at least 6 characters long.")
+                    st.error("❌ **PASSWORD TOO SHORT!** Must be at least 6 characters.")
                 elif not all([real_name.strip(), new_username.strip(), new_password]):
-                    st.warning("⚠️ Please fill in all fields.")
+                    st.warning("⚠️ **PLEASE FILL ALL FIELDS!**")
                 else:
                     user_db[new_username] = {
                         "name": real_name.strip(),
@@ -331,18 +443,40 @@ if page == "Sign Up":
 # 🔓 Enhanced Login Page
 elif page == "Login":
     st.session_state.signup_success = False
-    st.title("🔓 Welcome Back")
-    st.markdown("*Sign in to access your math tools*")
     
+    # Page-specific theme toggle for Login
+    st.markdown("### 🎨 **Theme Control Panel**")
+    st.markdown("*Choose your preferred visual mode*")
+    
+    theme_container = st.container()
+    with theme_container:
+        theme_col1, theme_col2, theme_col3 = st.columns([1, 1, 1])
+        with theme_col1:
+            if st.button("☀️ **LIGHT MODE**", key="login_light", help="Switch to bright light theme", use_container_width=True):
+                st.session_state.theme = "🌞 Light"
+                st.rerun()
+        with theme_col2:
+            if st.button("🌙 **DARK MODE**", key="login_dark", help="Switch to elegant dark theme", use_container_width=True):
+                st.session_state.theme = "🌙 Dark"
+                st.rerun()
+        with theme_col3:
+            st.markdown(f"**Current:** {st.session_state.theme}")
+    
+    st.divider()
+    st.title("🔓 **WELCOME BACK**")
+    st.markdown("### *Sign in to access your premium math tools*")
+    
+    st.markdown("#### **Login Form**")
     with st.form("login_form"):
-        username = st.text_input("👤 Username", placeholder="Enter your username")
-        password = st.text_input("🔒 Password", type="password", placeholder="Enter your password")
+        username = st.text_input("👤 **USERNAME**", placeholder="Enter your registered username")
+        password = st.text_input("🔒 **PASSWORD**", type="password", placeholder="Enter your secure password")
         
+        st.markdown("---")
         col1, col2 = st.columns(2)
         with col1:
-            login_button = st.form_submit_button("🚀 Sign In", use_container_width=True)
+            login_button = st.form_submit_button("🚀 **SIGN IN**", use_container_width=True)
         with col2:
-            if st.form_submit_button("📝 Create Account", use_container_width=True):
+            if st.form_submit_button("📝 **CREATE ACCOUNT**", use_container_width=True):
                 st.session_state.page = "Sign Up"
                 st.rerun()
         
@@ -353,10 +487,10 @@ elif page == "Login":
                 st.session_state.username = username
                 st.session_state.name = user_info["name"]
                 st.session_state.page = "Even/Odd Checker"
-                st.success(f"🎉 Welcome back, {user_info['name']}!")
+                st.success(f"🎉 **WELCOME BACK, {user_info['name'].upper()}!**")
                 st.rerun()
             else:
-                st.error("❌ Invalid credentials. Please try again.")
+                st.error("❌ **INVALID CREDENTIALS!** Please check your username and password.")
 
 # 🔢 Enhanced Even/Odd Checker
 elif page == "Even/Odd Checker":
