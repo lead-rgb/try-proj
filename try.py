@@ -21,7 +21,7 @@ def set_background(image_file, theme):
         bg_color = "#8BE6FB"
         text_color = "#2c3e50"
         secondary_bg = "#16DDAB00"
-        button_bg = "#009980"
+        button_bg = "#969900"
         button_text = "#141313"
         input_bg = "#05E7EF00"
         border_color = "#67cfdf"
