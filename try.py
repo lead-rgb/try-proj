@@ -2,63 +2,86 @@ import streamlit as st
 from pathlib import Path
 import json
 
-# 🗺️ Zoom Settings
+# 🌐 Font Size Options
 zoom_map = {
     "➖ Small": "14px",
     "🔍 Medium": "16px",
     "➕ Large": "18px"
 }
 
-# 🖼 Background Image Setup
 BACKGROUND_IMAGE = "kk.jpg"
 USER_DB_FILE = "users.json"
 
-# 🎨 Apply Background & Theme Styles
+# 🎨 Styling Based on Theme
 def set_background(image_file, theme):
     image_path = Path(image_file).resolve()
+    font_size = zoom_map[st.session_state.zoom]
+
     if theme == "🌞 Light":
         bg_color = "#f0f0f0"
         text_color = "#000000"
         button_bg = "#ffffff"
         button_text = "#000000"
+        input_bg = "#ffffff"
     else:
         bg_color = "#000000"
         text_color = "#ffffff"
         button_bg = "#333333"
         button_text = "#ffffff"
+        input_bg = "#1a1a1a"
 
     st.markdown(f"""
         <style>
+        html, body, .stApp {{
+            background-color: {bg_color} !important;
+            color: {text_color} !important;
+            font-size: {font_size} !important;
+        }}
+
         .stApp {{
-            background-color: {bg_color};
-            color: {text_color};
             background-image: url("file://{image_path}");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }}
-        html, body, [class*="css"] {{ zoom: {zoom_map[st.session_state.zoom]}; }}
-        [data-testid="stSidebar"], [data-testid="stSidebar"] .block-container {{
-            background-color: {bg_color};
-            color: {text_color};
+
+        .block-container, .main, [data-testid="stHeader"], [data-testid="stToolbar"] {{
+            background-color: {bg_color} !important;
+            color: {text_color} !important;
         }}
-        h1, h2, h3, h4, h5, h6, p, label,
-        .stTextInput, .stSelectbox, .stNumberInput,
-        [data-testid="stSidebar"] .stRadio > div > label {{
-            color: {text_color};
+
+        h1, h2, h3, h4, h5, h6, p, label, .markdown-text-container {{
+            color: {text_color} !important;
+            font-size: {font_size} !important;
         }}
+
+        .stTextInput input, .stNumberInput input, .stTextArea textarea,
+        .stSelectbox > div, .stRadio div label {{
+            background-color: {input_bg} !important;
+            color: {text_color} !important;
+            border: 1px solid #888 !important;
+            font-size: {font_size} !important;
+        }}
+
         .stButton > button {{
-            background-color: {button_bg};
-            color: {button_text};
-            border: 1px solid #aaa;
-            padding: 0.4em 1em;
-            border-radius: 6px;
+            background-color: {button_bg} !important;
+            color: {button_text} !important;
+            font-size: {font_size} !important;
             font-weight: bold;
+            border-radius: 6px;
+            padding: 0.4em 1em;
+            border: 1px solid #aaa;
+        }}
+
+        [data-testid="stSidebar"], [data-testid="stSidebar"] .block-container {{
+            background-color: {bg_color} !important;
+            color: {text_color} !important;
+            font-size: {font_size} !important;
         }}
         </style>
     """, unsafe_allow_html=True)
 
-# 🔐 User Data Management
+# 🔐 User DB Functions
 def load_users():
     try:
         with open(USER_DB_FILE, "r") as f:
@@ -70,7 +93,7 @@ def save_users(users):
     with open(USER_DB_FILE, "w") as f:
         json.dump(users, f)
 
-# 🧾 Initialize Session State Defaults
+# 🔧 Session Initialization
 for key, value in {
     "logged_in": False,
     "username": "",
@@ -85,42 +108,44 @@ for key, value in {
 
 user_db = load_users()
 
-# 🧭 Sidebar Navigation
+# 🧭 Navigation
 if st.session_state.logged_in:
     options = [
-        "Even/Odd Checker", 
-        "Quadratic Solver", 
-        "Area of Circle", 
-        "Calculator", 
-        "World Math List", 
-        "Logout"
+        "Even/Odd Checker", "Quadratic Solver",
+        "Area of Circle", "Calculator",
+        "World Math List", "Logout"
     ]
 else:
     options = ["Sign Up", "Login"]
 
 page = st.sidebar.selectbox("Navigate", options, index=options.index(st.session_state.page))
 
-# 🎛️ Theme & Zoom Settings
+# 🔓 Instant Logout
+if page == "Logout":
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.session_state.name = ""
+    st.session_state.page = "Login"
+    st.rerun()
+
+# 🎛 Display Settings
 if st.session_state.logged_in:
     st.sidebar.markdown("---")
     st.sidebar.subheader("🎨 Display Settings")
     st.session_state.theme = st.sidebar.radio("Mode", ["🌞 Light", "🌙 Dark"])
     st.session_state.zoom = st.sidebar.radio("Zoom", list(zoom_map.keys()))
 
-# 🎨 Apply Styling
+# 🎨 Apply Styles
 set_background(BACKGROUND_IMAGE, st.session_state.theme)
 
 # 🔐 Sign Up Page
 if page == "Sign Up":
     st.title("🔐 Sign Up")
-
     if st.session_state.signup_success:
-        st.success("✅ Successfully signed in, you can login to the page.")
-
+        st.success("✅ Registered! Please log in.")
     real_name = st.text_input("Full name")
     new_username = st.text_input("Choose a username")
     new_password = st.text_input("Choose a password", type="password")
-
     if st.button("Register"):
         if new_username in user_db:
             st.error("Username already exists.")
@@ -133,7 +158,7 @@ if page == "Sign Up":
 
 # 🔓 Login Page
 elif page == "Login":
-    st.session_state.signup_success = False  # clear success message on login
+    st.session_state.signup_success = False
     st.title("🔓 Login")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
@@ -185,7 +210,7 @@ elif page == "Area of Circle":
         area = 3.1416 * radius**2
         st.success(f"🟢 Area = {area:.2f}")
 
-# ➕ Calculator
+# ➕ Basic Calculator
 elif page == "Calculator":
     st.title("🧮 Basic Calculator")
     st.write(f"👋 Hello, {st.session_state.name}!")
@@ -207,25 +232,10 @@ elif page == "Calculator":
 elif page == "World Math List":
     st.title("🌍 World Math Questions")
     st.write("Explore fascinating math questions from around the globe!")
-
     math_questions = [
-        {
-            "question": "🇯🇵 What is the sum of the first 100 natural numbers?",
-            "answer": "The sum is given by the formula n(n+1)/2, so 100×101/2 = **5050**"
-        },
-        {
-            "question": "🇮🇳 What is the value of zero factorial (0!)?",
-            "answer": "**0! = 1**"
-        },
-        {
-            "question": "🇫🇷 What is the golden ratio approximately?",
-            "answer": "**1.618...**, derived from (1 + √5)/2"
-        },
-        {
-            "question": "🇺🇸 Solve for x: 2x + 5 = 13",
-            "answer": "Subtract 5 then divide by 2: x = **4**"
-        }
-    ]
-
-    for q in math_questions:
-        st.markdown(f"**{q['question']}**  \nAnswer: {q['answer']}")
+    {
+        "question": "🇯🇵 What is the sum of the first 100 natural numbers?",
+        "answer": "The sum is given by the formula n(n+1)/2 → 100×101/2 = **5050**"
+    },
+    ...
+]
