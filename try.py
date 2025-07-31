@@ -19,7 +19,7 @@ def set_background(image_file, theme):
 
     if theme == "🌞 Light":
         bg_color = "#ffffff"
-        text_color = "#1a202c"
+        text_color = "#eea61f"
         secondary_bg = "#f7fafc"
         button_bg = "#3182ce"
         button_text = "#13f7af"
