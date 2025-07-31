@@ -18,29 +18,59 @@ def set_background(image_file, theme):
     font_size = zoom_map[st.session_state.zoom]
 
     if theme == "🌞 Light":
-        bg_color = "#8BE6FB"
-        text_color = "#2c3e50"
-        secondary_bg = "#16DDAB00"
-        button_bg = "#969900"
-        button_text = "#F9C014"
-        input_bg = "#05E7EF00"
-        border_color = "#67cfdf"
-        shadow = "0 2px 4px rgba(0,0,0,0.1)"
+        bg_color = "#ffffff"
+        text_color = "#1a202c"
+        secondary_bg = "#f7fafc"
+        button_bg = "#3182ce"
+        button_text = "#13f7af"
+        input_bg = "#ffffff"
+        border_color = "#e2e8f0"
+        shadow = "0 4px 6px rgba(0,0,0,0.1)"
+        placeholder_color = "#718096"
     else:
-        bg_color = "#e7b62e"
-        text_color = "#000000"
-        secondary_bg = "#2d3748"
-        button_bg = "#8198b0"
-        button_text = "#375757"
-        input_bg = "#f3f7ff"
-        border_color = "#4a5568"
-        shadow = "0 2px 4px rgba(255,255,255,0.1)"
+        bg_color = "#0d1117"
+        text_color = "#16ecd3"
+        secondary_bg = "#21262d"
+        button_bg = "#238636"
+        button_text = "#11EBEF"
+        input_bg = "#21262d"
+        border_color = "#30363d"
+        shadow = "0 4px 6px rgba(0,0,0,0.3)"
+        placeholder_color = "#8b949e"
 
     st.markdown(f"""
         <style>
-        /* Global Styles with Transitions */
-        * {{
-            transition: all 0.3s ease !important;
+        /* Global forced visibility for all elements */
+        *, *::before, *::after {{
+            opacity: 1 !important;
+            visibility: visible !important;
+        }}
+        
+        /* Force text visibility in dark mode */
+        body, html, div, span, p, a, label, input, textarea, select, button,
+        h1, h2, h3, h4, h5, h6, li, ul, ol, td, th, tr, table {{
+            color: {text_color} !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            -webkit-text-fill-color: {text_color} !important;
+        }}
+        
+        /* Streamlit specific element visibility */
+        .stApp, .stApp *, .main, .main *, .block-container, .block-container *,
+        [data-testid] *, .stMarkdown *, .stForm *, .stButton *, 
+        .stTextInput *, .stNumberInput *, .stSelectbox *, .stRadio * {{
+            color: {text_color} !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }}
+        
+        /* Override any framework hiding */
+        .sr-only, .visually-hidden, [hidden], [style*="display: none"],
+        [style*="visibility: hidden"], [style*="opacity: 0"] {{
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: {text_color} !important;
         }}
         
         html, body, .stApp {{
@@ -72,67 +102,95 @@ def set_background(image_file, theme):
             color: {text_color} !important;
         }}
         
-        /* Typography with Maximum Visibility */
+        /* Typography with Forced Visibility */
         h1, h2, h3, h4, h5, h6 {{
             color: {text_color} !important;
             font-size: calc({font_size} + 4px) !important;
-            font-weight: 700 !important;
+            font-weight: 800 !important;
             margin-bottom: 1.2rem !important;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
             line-height: 1.3 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }}
         
         h1 {{
             font-size: calc({font_size} + 12px) !important;
             text-align: center !important;
-            background: linear-gradient(135deg, {text_color}, {button_bg}) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-            background-clip: text !important;
+            color: {text_color} !important;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
         }}
         
-        p, label, .markdown-text-container, .stMarkdown {{
+        p, label, .markdown-text-container, .stMarkdown, .stMarkdown p {{
             color: {text_color} !important;
             font-size: {font_size} !important;
             line-height: 1.7 !important;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }}
+        
+        /* Force all text elements to be visible */
+        * {{
+            color: {text_color} !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }}
+        
+        /* Override any hidden text */
+        .stTextInput label, .stNumberInput label, .stSelectbox label, 
+        .stRadio label, .stForm label, label {{
+            color: {text_color} !important;
+            font-weight: 700 !important;
+            font-size: calc({font_size} + 2px) !important;
+            margin-bottom: 8px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
         }}
         
         /* Enhanced divider visibility */
-        hr {{
+        hr, .stDivider {{
             border: none !important;
-            height: 2px !important;
-            background: linear-gradient(90deg, transparent, {text_color}40, transparent) !important;
+            height: 3px !important;
+            background: linear-gradient(90deg, transparent, {text_color}60, transparent) !important;
             margin: 2rem 0 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }}
         
-        /* Input Fields with Enhanced Visibility */
+        /* Input Fields with Maximum Visibility for Dark Mode */
         .stTextInput input, .stNumberInput input, .stTextArea textarea {{
             background-color: {input_bg} !important;
             color: {text_color} !important;
             border: 2px solid {border_color} !important;
             border-radius: 8px !important;
             font-size: {font_size} !important;
+            font-weight: 600 !important;
             padding: 12px !important;
             box-shadow: {shadow} !important;
             caret-color: {text_color} !important;
             -webkit-text-fill-color: {text_color} !important;
             -webkit-box-shadow: 0 0 0px 1000px {input_bg} inset !important;
+            opacity: 1 !important;
         }}
         
         .stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus {{
             border-color: {button_bg} !important;
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2) !important;
+            box-shadow: 0 0 0 3px rgba(35, 134, 54, 0.3), inset 0 0 0px 1000px {input_bg} !important;
             outline: none !important;
             caret-color: {button_bg} !important;
+            color: {text_color} !important;
+            -webkit-text-fill-color: {text_color} !important;
         }}
         
         .stTextInput input::placeholder, .stNumberInput input::placeholder, .stTextArea textarea::placeholder {{
-            color: {text_color}80 !important;
-            opacity: 0.7 !important;
+            color: {placeholder_color} !important;
+            opacity: 0.8 !important;
+            font-weight: 500 !important;
         }}
         
-        /* Autofill Override for Better Visibility */
+        /* Force text visibility in all browsers */
         .stTextInput input:-webkit-autofill,
         .stTextInput input:-webkit-autofill:hover,
         .stTextInput input:-webkit-autofill:focus,
@@ -140,6 +198,14 @@ def set_background(image_file, theme):
             -webkit-box-shadow: 0 0 0px 1000px {input_bg} inset !important;
             -webkit-text-fill-color: {text_color} !important;
             caret-color: {text_color} !important;
+            color: {text_color} !important;
+            background-color: {input_bg} !important;
+        }}
+        
+        /* Input container styling */
+        .stTextInput > div > div, .stNumberInput > div > div {{
+            background-color: {input_bg} !important;
+            border-radius: 8px !important;
         }}
         
         /* Select Boxes and Radio Buttons with Enhanced Visibility */
@@ -232,22 +298,36 @@ def set_background(image_file, theme):
             box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4) !important;
         }}
         
-        /* Sidebar */
+        /* Sidebar with Maximum Visibility */
         [data-testid="stSidebar"] {{
             background-color: {secondary_bg} !important;
             border-radius: 0 15px 15px 0 !important;
             box-shadow: {shadow} !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }}
+        
+        [data-testid="stSidebar"] * {{
+            color: {text_color} !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }}
         
         [data-testid="stSidebar"] .block-container {{
             background-color: {secondary_bg} !important;
             color: {text_color} !important;
             padding: 2rem 1rem !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }}
         
         [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, 
-        [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label {{
+        [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label,
+        [data-testid="stSidebar"] p, [data-testid="stSidebar"] div {{
             color: {text_color} !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-weight: 600 !important;
         }}
         
         /* Success/Error Messages */
@@ -302,8 +382,6 @@ def set_background(image_file, theme):
     """, unsafe_allow_html=True)
 
 # 🔐 User DB Functions
-
-
 def load_users():
     try:
         with open(USER_DB_FILE, "r") as f:
@@ -311,14 +389,11 @@ def load_users():
     except FileNotFoundError:
         return {}
 
-
 def save_users(users):
     with open(USER_DB_FILE, "w") as f:
         json.dump(users, f, indent=2)
 
 # 🔧 Session Initialization
-
-
 for key, value in {
     "logged_in": False,
     "username": "",
@@ -373,8 +448,8 @@ if st.session_state.logged_in:
     
     st.sidebar.markdown("**Font Size**")
     st.session_state.zoom = st.sidebar.radio("", list(zoom_map.keys()), 
-        index=list(zoom_map.keys()).index(st.session_state.zoom),
-        label_visibility="collapsed")
+index=list(zoom_map.keys()).index(st.session_state.zoom),
+label_visibility="collapsed")
 
 # 🎨 Apply Styles
 set_background(BACKGROUND_IMAGE, st.session_state.theme)
