@@ -18,21 +18,21 @@ def set_background(image_file, theme):
     font_size = zoom_map[st.session_state.zoom]
 
     if theme == "🌞 Light":
-        bg_color = "#ffffff"
+        bg_color = "#8BE6FB"
         text_color = "#2c3e50"
-        secondary_bg = "#f8f9fa"
-        button_bg = "#3498db"
-        button_text = "#ffffff"
-        input_bg = "#ffffff"
-        border_color = "#dee2e6"
+        secondary_bg = "#85bcf3"
+        button_bg = "#86c8f7"
+        button_text = "#141313"
+        input_bg = "#3bbbf7"
+        border_color = "#73b4f5"
         shadow = "0 2px 4px rgba(0,0,0,0.1)"
     else:
         bg_color = "#1a1a1a"
-        text_color = "#e9ecef"
+        text_color = "#F19748"
         secondary_bg = "#2d3748"
-        button_bg = "#4a90e2"
-        button_text = "#ffffff"
-        input_bg = "#2d3748"
+        button_bg = "#7cbbfb"
+        button_text = "#8afcf9"
+        input_bg = "#74a4f7"
         border_color = "#4a5568"
         shadow = "0 2px 4px rgba(255,255,255,0.1)"
 
@@ -302,6 +302,8 @@ def set_background(image_file, theme):
     """, unsafe_allow_html=True)
 
 # 🔐 User DB Functions
+
+
 def load_users():
     try:
         with open(USER_DB_FILE, "r") as f:
@@ -309,11 +311,14 @@ def load_users():
     except FileNotFoundError:
         return {}
 
+
 def save_users(users):
     with open(USER_DB_FILE, "w") as f:
         json.dump(users, f, indent=2)
 
 # 🔧 Session Initialization
+
+
 for key, value in {
     "logged_in": False,
     "username": "",
@@ -368,8 +373,8 @@ if st.session_state.logged_in:
     
     st.sidebar.markdown("**Font Size**")
     st.session_state.zoom = st.sidebar.radio("", list(zoom_map.keys()), 
-                                           index=list(zoom_map.keys()).index(st.session_state.zoom),
-                                           label_visibility="collapsed")
+        index=list(zoom_map.keys()).index(st.session_state.zoom),
+        label_visibility="collapsed")
 
 # 🎨 Apply Styles
 set_background(BACKGROUND_IMAGE, st.session_state.theme)
