@@ -34,7 +34,7 @@ def set_background(image_file, theme):
         button_bg = "#238636"
         button_text = "#11EBEF"
         input_bg = "#ffffff"
-        border_color = "#30363d"
+        border_color = "#db6825"
         shadow = "0 4px 6px rgba(0,0,0,0.3)"
         placeholder_color = "#8b949e"
 
