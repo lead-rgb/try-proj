@@ -29,7 +29,7 @@ def set_background(image_file, theme):
         placeholder_color = "#718096"
     else:
         bg_color = "#10f0de"
-        text_color = "#264b52"
+        text_color = "#366b76"
         secondary_bg = "#1ff2c1"
         button_bg = "#D7590B"
         button_text = "#11EFCE"
