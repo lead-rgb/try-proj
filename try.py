@@ -18,13 +18,13 @@ def set_background(image_file, theme):
     font_size = zoom_map[st.session_state.zoom]
 
     if theme == "🌞 Light":
-        bg_color = "#ffffff"
+        bg_color = "#17f6f6"
         text_color = "#861fee"
-        secondary_bg = "#f7fafc"
+        secondary_bg = "#27b7eb"
         button_bg = "#3182ce"
-        button_text = "#f7ba13"
+        button_text = "#a313f7"
         input_bg = "#ffffff"
-        border_color = "#e2e8f0"
+        border_color = "#8911d3"
         shadow = "0 4px 6px rgba(0,0,0,0.1)"
         placeholder_color = "#718096"
     else:
@@ -32,7 +32,7 @@ def set_background(image_file, theme):
         text_color = "#ba16ec"
         secondary_bg = "#1ff2c1"
         button_bg = "#D7590B"
-        button_text = "#11EBEF"
+        button_text = "#9A11EF"
         input_bg = "#ffffff"
         border_color = "#db6825"
         shadow = "0 4px 6px rgba(0,0,0,0.3)"
