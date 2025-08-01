@@ -28,7 +28,7 @@ def set_background(image_file, theme):
         shadow = "0 4px 6px rgba(0,0,0,0.1)"
         placeholder_color = "#718096"
     else:
-        bg_color = "#ffffff"
+        bg_color = "#10f0de"
         text_color = "#ba16ec"
         secondary_bg = "#1ff2c1"
         button_bg = "#D7590B"
@@ -393,7 +393,7 @@ def save_users(users):
     with open(USER_DB_FILE, "w") as f:
         json.dump(users, f, indent=2)
 
-# 🔧 Session Initialization
+# 🔧 Session Initialization : memory saving
 for key, value in {
     "logged_in": False,
     "username": "",
