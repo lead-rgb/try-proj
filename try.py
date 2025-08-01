@@ -29,10 +29,10 @@ def set_background(image_file, theme):
         placeholder_color = "#718096"
     else:
         bg_color = "#10f0de"
-        text_color = "#ba16ec"
+        text_color = "#264b52"
         secondary_bg = "#1ff2c1"
         button_bg = "#D7590B"
-        button_text = "#9A11EF"
+        button_text = "#11EFCE"
         input_bg = "#ffffff"
         border_color = "#db6825"
         shadow = "0 4px 6px rgba(0,0,0,0.3)"
